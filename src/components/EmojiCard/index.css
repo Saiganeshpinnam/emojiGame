@@ -3,11 +3,28 @@
 .individual-emoji-container {
   background-color: #ffffff33;
   margin: 8px;
-  height: 120px;
-  width: 120px;
-  border-radius: 10x;
+  height: 75px;
+  width: 75px;
+  border-radius: 10px;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
+}
+.emoji {
+  height: 40px;
+  width: 40px;
+}
+
+@media screen and (min-width: 768px) {
+  .individual-emoji-container {
+    margin: 10px;
+    height: 145px;
+    width: 145px;
+    border-radius: 12px;
+  }
+  .emoji {
+    height: 90px;
+    width: 90px;
+  }
 }

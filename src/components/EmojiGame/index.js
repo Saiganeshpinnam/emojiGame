@@ -6,6 +6,8 @@ import './index.css'
 
 import NavBar from '../NavBar'
 
+import WinOrLoseCard from '../WinOrLoseCard'
+
 /* 
 Quick Tip 
 
@@ -22,48 +24,86 @@ const shuffledEmojisList = () => {
 class EmojiGame extends Component {
   state = {
     userSelectionEmojiList: [],
+    isGameInProgress: true,
+    isGameWon: false,
+    topscore: 0,
   }
 
-  getEmojiId = id => {
+  finishGameAndSetTopScore = userScore => {
+    const {emojisList} = this.props
+    console.log(userScore / emojisList.length)
+    return userScore / emojisList.length
+  }
+
+  shuffledEmojisList = () => {
+    const {emojisList} = this.props
+    return emojisList.sort(() => Math.random() - 0.5)
+  }
+
+  clickEmoji = id => {
+    const {emojisList} = this.props
     const {userSelectionEmojiList} = this.state
-    //  console.log(id)
-    // if (!userSelectionEmojiList.includes(id)) {
-    //   userSelectionEmojiList.push(id)
-    // }
-    // this.setState({
-    //   userSelectionEmojiList : [...userSelectionEmojiList, id]
-    // })
-    if (!userSelectionEmojiList.includes(id)) {
-      this.setState({
-        userSelectionEmojiList: [...userSelectionEmojiList, id],
-      })
+
+    if (userSelectionEmojiList.includes(id)) {
+      this.setState({isGameInProgress: false})
+    } else {
+      const updatedUserSelectionEmojiList = [...userSelectionEmojiList, id]
+      if (updatedUserSelectionEmojiList.length === emojisList.length) {
+        this.setState({
+          userSelectionEmojiList: updatedUserSelectionEmojiList,
+          isGameInProgress: false,
+          isGameWon: true,
+        })
+      } else {
+        this.setState({
+          userSelectionEmojiList: updatedUserSelectionEmojiList,
+        })
+      }
     }
   }
 
   render() {
     const {emojisList} = this.props
-    const {userSelectionEmojiList} = this.state
+    //  console.log(emojisList.length)
+    const {
+      userSelectionEmojiList,
+      isGameInProgress,
+      isGameWon,
+      topscore,
+    } = this.state
     console.log(userSelectionEmojiList)
 
     const userScore = userSelectionEmojiList.length
     console.log(userScore)
     return (
-      <div>
-        <NavBar className="navbar-container" />
-
+      <>
+        <NavBar userScore={userScore} />
         <div className="bg-container">
-          <NavBar userScore={userScore} />
-          <ul className="emojis-container">
-            {emojisList.map(eachEmoji => (
-              <EmojiCard
-                key={eachEmoji.id}
-                eachEmoji={eachEmoji}
-                getEmojiId={this.getEmojiId}
-              />
-            ))}
-          </ul>
+          {isGameInProgress ? (
+            <ul className="emojis-container">
+              {emojisList.map(eachEmoji => (
+                <EmojiCard
+                  key={eachEmoji.id}
+                  eachEmoji={eachEmoji}
+                  clickEmoji={this.clickEmoji}
+                />
+              ))}
+            </ul>
+          ) : (
+            <WinOrLoseCard
+              isWon={isGameWon}
+              score={userScore}
+              playAgain={() =>
+                this.setState({
+                  isGameInProgress: true,
+                  userSelectionEmojiList: [],
+                  isGameWon: false,
+                })
+              }
+            />
+          )}
         </div>
-      </div>
+      </>
     )
   }
 }

@@ -2,16 +2,21 @@
 import './index.css'
 
 const EmojiCard = props => {
-  const {eachEmoji, getEmojiId} = props
+  const {eachEmoji, clickEmoji} = props
   const {emojiName, emojiUrl, id} = eachEmoji
 
   const selectingEmoji = () => {
-    getEmojiId(id)
+    clickEmoji(id)
   }
 
   return (
     <li className="individual-emoji-container">
-      <img src={emojiUrl} alt="emojiName" onClick={selectingEmoji} />
+      <img
+        src={emojiUrl}
+        alt="emojiName"
+        onClick={selectingEmoji}
+        className="emoji"
+      />
     </li>
   )
 }
