@@ -71,17 +71,18 @@ class EmojiGame extends Component {
       isGameWon,
       topscore,
     } = this.state
+    const shuffledEmojis = this.shuffledEmojisList()
     console.log(userSelectionEmojiList)
 
     const userScore = userSelectionEmojiList.length
     console.log(userScore)
     return (
       <>
-        <NavBar userScore={userScore} />
         <div className="bg-container">
+          <NavBar userScore={userScore} />
           {isGameInProgress ? (
             <ul className="emojis-container">
-              {emojisList.map(eachEmoji => (
+              {shuffledEmojis.map(eachEmoji => (
                 <EmojiCard
                   key={eachEmoji.id}
                   eachEmoji={eachEmoji}
