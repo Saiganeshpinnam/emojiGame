@@ -79,23 +79,21 @@ class EmojiGame extends Component {
     return (
       <>
         <div className="bg-container">
-          <NavBar userScore={userScore} topscore={topscore} />
+          <NavBar
+            userScore={userScore}
+            topscore={topscore}
+            isGameInProgress={isGameInProgress}
+          />
           {isGameInProgress ? (
-            <>
-              <div className="score-container">
-                <p>Score: {userScore}</p>
-                <p>Top Score: {userScore} </p>
-              </div>
-              <ul className="emojis-container">
-                {shuffledEmojis.map(eachEmoji => (
-                  <EmojiCard
-                    key={eachEmoji.id}
-                    eachEmoji={eachEmoji}
-                    clickEmoji={this.clickEmoji}
-                  />
-                ))}
-              </ul>
-            </>
+            <ul className="emojis-container">
+              {shuffledEmojis.map(eachEmoji => (
+                <EmojiCard
+                  key={eachEmoji.id}
+                  eachEmoji={eachEmoji}
+                  clickEmoji={this.clickEmoji}
+                />
+              ))}
+            </ul>
           ) : (
             <WinOrLoseCard
               isWon={isGameWon}
