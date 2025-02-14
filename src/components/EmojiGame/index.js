@@ -29,6 +29,21 @@ class EmojiGame extends Component {
     topscore: 0,
   }
 
+  playAgain = () => {
+    const {userSelectionEmojiList, topscore} = this.state
+    const userScore = userSelectionEmojiList.length
+
+    if (userScore > topscore) {
+      this.setState({topscore: userScore})
+    }
+
+    this.setState({
+      isGameInProgress: true,
+      userSelectionEmojiList: [],
+      isGameWon: false,
+    })
+  }
+
   finishGameAndSetTopScore = userScore => {
     const {emojisList} = this.props
     console.log(userScore / emojisList.length)
@@ -98,13 +113,7 @@ class EmojiGame extends Component {
             <WinOrLoseCard
               isWon={isGameWon}
               score={userScore}
-              playAgain={() =>
-                this.setState({
-                  isGameInProgress: true,
-                  userSelectionEmojiList: [],
-                  isGameWon: false,
-                })
-              }
+              playAgain={this.playAgain}
             />
           )}
         </div>
